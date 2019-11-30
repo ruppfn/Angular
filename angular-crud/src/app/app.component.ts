@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import { Persona } from './models/persona';
+import { ApiService } from './services/data-api.service';
 
 
 @Component({
@@ -10,10 +10,26 @@ import { Persona } from './models/persona';
 })
 
 export class AppComponent {
-  personaArray: Persona[] = [
-    {id: 1, firstName: 'Juan', lastName: 'Juarez', email: 'test@test.com', address: 'Calle falsa 123'},
-    {id: 2, firstName: 'Pedro', lastName: 'Sanchez', email: 'test2@test2.com', address: 'Av. falsa 234'}
-  ]
+  personaArray: Persona[] = [];
+
+  constructor(private dataApi: ApiService){ }
+
+  ngOnInit(){
+    this.getPersonas();
+  }
+
+  getPersonas(){
+    this.dataApi.getAllPersonas().subscribe(personas => {
+      let personaVar: Persona = new Persona();
+      let personaArr = <Array<Object>>personas;
+      
+      personaArr.forEach(item =>{
+        personaVar = <Persona>item;
+        this.personaArray.push(personaVar);
+      })
+      
+    });
+  }
 
   selectedPersona: Persona = new Persona();
 
@@ -22,16 +38,17 @@ export class AppComponent {
   }
 
   addOrEdit(){
-    if(this.selectedPersona.id === 0){
+    if(this.selectedPersona.id === 0 && this.selectedPersona.firstName.length > 1){
       this.selectedPersona.id = this.personaArray.length +1;
       this.personaArray.push(this.selectedPersona);
     }
-    this.selectedPersona = new Persona();
+    this.personaArray.forEach(persona => this.dataApi.addPersona(persona).subscribe(result => console.log(result)));
   }
 
   delete(){
     if(confirm('Are you sure you want to delete it?')){
       this.personaArray = this.personaArray.filter(x => x!= this.selectedPersona);
+      this.dataApi.deletePersona(this.selectedPersona.id).subscribe(result => console.log(result));
       this.selectedPersona = new Persona();
     }
   }
