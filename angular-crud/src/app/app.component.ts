@@ -11,6 +11,7 @@ import { ApiService } from './services/data-api.service';
 
 export class AppComponent {
   personaArray: Persona[] = [];
+  selectedPersona: Persona = new Persona();
 
   constructor(private dataApi: ApiService){ }
 
@@ -31,18 +32,24 @@ export class AppComponent {
     });
   }
 
-  selectedPersona: Persona = new Persona();
-
+  refresh(){
+    this.selectedPersona = new Persona();
+  }
+ 
   edit(persona:Persona){
     this.selectedPersona = persona;
   }
 
-  addOrEdit(){
+  saveAll(){
     if(this.selectedPersona.id === 0 && this.selectedPersona.firstName.length > 1){
       this.selectedPersona.id = this.personaArray.length +1;
       this.personaArray.push(this.selectedPersona);
     }
-    this.personaArray.forEach(persona => this.dataApi.addPersona(persona).subscribe(result => console.log(result)));
+    this.personaArray.forEach(persona => this.dataApi.addPersona(persona).subscribe());
+  }
+
+  saveOne(){
+    this.dataApi.addPersona(this.selectedPersona).subscribe();
   }
 
   delete(){
