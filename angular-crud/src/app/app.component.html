@@ -1,48 +1,16 @@
-<nav class="navbar navbar-dark bg-dark">
-  <a href="/" class="navbar-brand">Angular Crud</a>
+<nav class="navbar navbar-dark bg-dark navbar-expand-sm">
+  <a href="/" class="navbar-brand">AngularCrud</a>
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/home']">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLinkActive]="['active']" routerLink="/login">Login</a>
+    </li>
+    <li class="nav-item">
+      <a (click)="logout()" class="nav-link">Logout</a>
+    </li>
+  </ul>
 </nav>
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-8 mt-4">
-      <ul class="list-group container-fluid">
-        <li *ngFor="let persona of personaArray" class="list-group-item list-group-item-action" (click)="edit(persona)" [class.active]="persona == selectedPersona">
-          <span class="badge badge-primary">{{persona.id}}</span> {{persona.lastName}}, {{persona.firstName}} -
-          {{persona.address}} <span title="{{persona.email}}"><i class="fas fa-envelope"></i></span>
-        </li>
-      </ul>
-      <div class="card mt-4">
-        <div class="card-body">
-          <div class="card-title d-flex">
-            <span class="p-2">Inserta una nueva persona</span> <button class="btn btn-primary ml-auto p-2" (click)="refresh()">Refresh</button>
-          </div>
-          <div class="form-group">
-            <input type="text" [(ngModel)]="selectedPersona.lastName" placeholder="Last Name" class="form-control">
-          </div>
-          <div class="form-group">
-            <input type="text" [(ngModel)]="selectedPersona.firstName" placeholder="First Name" class="form-control">
-          </div>
-          <div class="form-group">
-            <input type="text" [(ngModel)]="selectedPersona.email" placeholder="E-Mail" class="form-control">
-          </div>
-          <div class="form-group">
-            <input type="text" [(ngModel)]="selectedPersona.address" placeholder="Address" class="form-control">
-          </div>
-          <div class="d-flex">
-            <button (click)="saveOne()" class="btn btn-primary p-2">Save</button>
-            <button *ngIf="selectedPersona.id !== 0" class="btn btn-danger p-2 ml-auto" (click)="delete()">Delete</button>
-            <button class="btn btn-secondary ml-auto p-2" (click)="saveAll()">Save All</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <img width="300"
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/512px-Angular_full_color_logo.svg.png"
-        alt="Angular Logo">
-    </div>
-  </div>
-</div>
-
 
 <router-outlet></router-outlet>
