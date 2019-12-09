@@ -1,0 +1,26 @@
+<div class="alert alert-danger mt-1" [hidden]="!logFailed()">
+    There was a problem logging in. Please try again.
+</div>
+<div class="container-fluid">
+    <div class="mt-5 row justify-content-md-center">
+        <form role="form" (submit)="login()" style="width: 50%;">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="bassic-addon1">Username: </span>
+                </div>
+                <input type="text" class="form-control" id="username" name="username" [(ngModel)]="credentials.username"
+                    aria-describedby="basic-addon1" />
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="bassic-addon2">Password: </span>
+                </div>
+                <input type="password" class="form-control" id="password" name="password" [(ngModel)]="credentials.password"
+                    aria-describedby="basic-addon2" />
+            </div>
+            <div class="row justify-content-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
